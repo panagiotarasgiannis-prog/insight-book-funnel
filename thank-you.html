@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank you — Your book is ready | INSIGHT</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F1C2E;--navy-mid:#1B2B3A;--navy-light:#243447;
+    --gold:#C8B896;--gold-light:#DDD0B8;--gold-dark:#A89060;
+    --cream:#F5F1EB;--cream-dark:#EDE8E0;
+    --ink:#1B2231;--ink-mid:#3D4A58;--ink-light:#7A8696;--white:#FFFFFF;
+    --rule:rgba(200,184,150,0.35);--rule-dark:rgba(200,184,150,0.18);
+    --font-display:'Cinzel',serif;--font-body:'Cormorant Garamond',serif;--font-ui:'Montserrat',sans-serif;
+    --max-w:760px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:var(--font-body);color:var(--cream);font-size:18px;line-height:1.7;
+    background:
+      radial-gradient(1100px 580px at 50% -10%, rgba(200,184,150,.12), transparent 60%),
+      linear-gradient(168deg,var(--navy) 0%,#0a1322 100%);
+    min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--max-w);margin:0 auto;padding:0 32px;width:100%}
+
+  /* NAV */
+  nav{border-bottom:0.7px solid var(--rule-dark)}
+  nav .inner{max-width:1160px;margin:0 auto;padding:0 32px;display:flex;justify-content:center;align-items:center;height:128px}
+  .nav-logo{display:flex;flex-direction:column;align-items:center}
+  .nav-logo .rule{height:1.4px;width:230px;background:var(--gold)}
+  .nav-logo .wordmark{font-family:var(--font-display);font-size:34px;font-weight:500;letter-spacing:0.5em;color:var(--cream);padding:12px 0 10px 0.5em}
+  @media (max-width:680px){nav .inner{height:100px}.nav-logo .rule{width:170px}.nav-logo .wordmark{font-size:26px}}
+
+  main{flex:1;display:flex;align-items:center;padding:64px 0}
+  .panel{text-align:center;width:100%}
+
+  .check{
+    width:74px;height:74px;border:1px solid var(--gold);border-radius:50%;
+    margin:0 auto 28px;display:flex;align-items:center;justify-content:center;
+    animation:pop .5s cubic-bezier(.2,.9,.3,1.3) both;
+  }
+  @keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+  .check svg{width:34px;height:34px}
+
+  .eyebrow{font-family:var(--font-ui);text-transform:uppercase;letter-spacing:0.34em;font-size:10.5px;color:var(--gold);font-weight:500;margin-bottom:18px}
+  h1{font-family:var(--font-display);font-size:38px;font-weight:500;line-height:1.22;margin-bottom:16px}
+  h1 .accent{color:var(--gold-light)}
+  .lead{font-size:20px;font-weight:300;color:var(--cream-dark);max-width:30em;margin:0 auto 42px}
+
+  .download-card{
+    background:var(--cream);color:var(--ink);
+    border-top:2px solid var(--gold);
+    padding:30px;box-shadow:0 30px 70px rgba(0,0,0,.5);
+    display:grid;grid-template-columns:auto 1fr auto;gap:26px;align-items:center;text-align:left;
+    max-width:600px;margin:0 auto;
+  }
+  .download-card img{width:88px;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+  .download-card .kicker{font-family:var(--font-ui);font-size:9px;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold-dark);font-weight:600;margin-bottom:5px}
+  .download-card h2{font-family:var(--font-display);font-size:20px;color:var(--navy);font-weight:500;line-height:1.25}
+  a.download-btn{
+    display:inline-flex;align-items:center;gap:10px;font-family:var(--font-ui);
+    font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--navy);text-decoration:none;background:var(--gold);
+    padding:15px 26px;white-space:nowrap;transition:background .25s,transform .2s,box-shadow .25s;
+  }
+  a.download-btn:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(200,184,150,.25)}
+  a.download-btn svg{width:17px;height:17px}
+
+  .note{font-family:var(--font-ui);font-size:11.5px;letter-spacing:0.03em;color:var(--ink-light);margin-top:30px;line-height:1.8}
+  .note a{color:var(--gold-light)}
+
+  .next{margin-top:54px;border-top:0.7px solid var(--rule-dark);padding-top:42px}
+  .next h3{font-family:var(--font-ui);font-size:10.5px;text-transform:uppercase;letter-spacing:0.3em;color:var(--gold);font-weight:500;margin-bottom:24px}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule-dark);border:0.7px solid var(--rule-dark);text-align:left}
+  .step{background:var(--navy);padding:22px 20px}
+  .step .n{font-family:var(--font-display);color:var(--gold);font-weight:500;font-size:15px;margin-bottom:9px}
+  .step p{font-size:16px;font-weight:300;color:var(--cream-dark);line-height:1.5}
+
+  footer{border-top:0.7px solid var(--rule-dark);padding:28px 0;text-align:center}
+  footer .small{font-family:var(--font-ui);font-size:10px;letter-spacing:0.08em;color:var(--ink-light);line-height:1.9}
+
+  @media (max-width:680px){
+    h1{font-size:30px}
+    .download-card{grid-template-columns:1fr;text-align:center;justify-items:center;gap:18px}
+    .download-card img{width:108px}
+    .steps{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <div class="nav-logo">
+      <div class="rule"></div>
+      <div class="wordmark">INSIGHT</div>
+      <div class="rule"></div>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+    <div class="panel">
+      <div class="check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C8B896" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <div class="eyebrow">You're in</div>
+      <h1>Thank you — <span class="accent">your book is ready.</span></h1>
+      <p class="lead">Click below to download <em>The Manual for the Systematic Investor</em> right now. We've also sent a copy to your inbox.</p>
+
+      <div class="download-card">
+        <img src="cover.jpg" alt="Book cover">
+        <div>
+          <div class="kicker">Your free book</div>
+          <h2>The Manual for the Systematic Investor</h2>
+        </div>
+        <a class="download-btn" id="dlBtn" href="The-Manual-for-the-Systematic-Investor.pdf" download target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0F1C2E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          Download
+        </a>
+      </div>
+
+      <p class="note">
+        Download didn't start? <a id="dlLink" href="The-Manual-for-the-Systematic-Investor.pdf" target="_blank" rel="noopener">Open it directly here</a>.
+        Check your inbox (and spam folder) for your emailed copy too.
+      </p>
+
+      <div class="next">
+        <h3>While you're here</h3>
+        <div class="steps">
+          <div class="step"><div class="n">I</div><p>Save the PDF somewhere you'll actually find it — phone, e-reader or desktop.</p></div>
+          <div class="step"><div class="n">II</div><p>Start with the chapter on the systematic mindset — it sets up everything else.</p></div>
+          <div class="step"><div class="n">III</div><p>Whitelist our email so you don't miss future notes and updates.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="small">
+      &copy; <span id="yr"></span> INSIGHT &middot; The Manual for the Systematic Investor &middot; Educational content, not financial advice.
+    </p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+
+  /* ============================================================
+     BOOK_URL — the one place to set where the book lives.
+     - Leave as the bundled file to serve it from Render.
+     - To save Render bandwidth, paste your Zoho WorkDrive / Google Drive
+       DIRECT download link here (then re-deploy). Everything else updates
+       automatically: the Download button, the open-directly link, and
+       the auto-download below.
+  ============================================================ */
+  var BOOK_URL  = 'The-Manual-for-the-Systematic-Investor.pdf';
+  var FILE_NAME = 'The-Manual-for-the-Systematic-Investor.pdf';
+
+  (function(){
+    var btn=document.getElementById('dlBtn'), lnk=document.getElementById('dlLink');
+    if(btn) btn.href=BOOK_URL;
+    if(lnk) lnk.href=BOOK_URL;
+
+    var isExternal=/^https?:\/\//i.test(BOOK_URL) &&
+                   BOOK_URL.indexOf(location.origin)!==0;
+
+    function clickLink(href,opts){
+      var a=document.createElement('a');
+      a.href=href;
+      if(opts && opts.download) a.download=FILE_NAME;
+      if(opts && opts.newTab){a.target='_blank';a.rel='noopener';}
+      a.style.display='none';
+      document.body.appendChild(a);a.click();
+      setTimeout(function(){a.remove();},0);
+    }
+
+    function deliver(){
+      if(isExternal){
+        clickLink(BOOK_URL,{newTab:true});
+        return;
+      }
+      fetch(BOOK_URL).then(function(r){
+        if(!r.ok) throw new Error('fetch failed');
+        return r.blob();
+      }).then(function(blob){
+        var burl=URL.createObjectURL(blob);
+        clickLink(burl,{download:true});
+        clickLink(burl,{newTab:true});
+        setTimeout(function(){URL.revokeObjectURL(burl);},60000);
+      }).catch(function(){
+        clickLink(BOOK_URL,{newTab:true,download:true});
+      });
+    }
+
+    window.addEventListener('load',function(){ setTimeout(deliver,700); });
+  })();
+</script>
+</body>
+</html>
