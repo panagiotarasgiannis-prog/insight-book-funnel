@@ -221,28 +221,44 @@
      See SETUP-GUIDE.md (Zoho Campaigns recommended, or Formspree).
 ============================================================= -->
 <section class="cta-section">
+  <!-- Email capture wired to Zoho Campaigns (list: Book Subscribers).
+       Posts to Zoho in a hidden iframe; the script below then sends the
+       visitor to thank-you.html for the instant download. -->
   <form class="form-card" id="optin-form"
-        action="https://formspree.io/f/YOUR_FORM_ID"
-        method="POST">
+        method="POST"
+        action="https://zcv2-zcmp.maillist-manage.eu/weboptin.zc"
+        target="_zcSignup">
     <div class="kicker">The Manual for the Systematic Investor</div>
     <h2>Get your free copy</h2>
     <p class="lead">Enter your details and the book downloads instantly on the next page.</p>
     <div class="field">
-      <label for="name">First name</label>
-      <input type="text" id="name" name="name" placeholder="Your first name" required>
+      <label for="FIRSTNAME">First name</label>
+      <input type="text" id="FIRSTNAME" name="FIRSTNAME" placeholder="Your first name" required>
     </div>
     <div class="field">
-      <label for="email">Email address</label>
-      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+      <label for="EMBED_FORM_EMAIL_LABEL">Email address</label>
+      <input type="email" id="EMBED_FORM_EMAIL_LABEL" name="CONTACT_EMAIL" placeholder="you@example.com" required>
     </div>
-    <input type="hidden" name="_next" value="thank-you.html">
-    <input type="hidden" name="_subject" value="New book download — The Systematic Investor">
+    <!-- Zoho Campaigns hidden fields (from the form's embed code) -->
+    <input type="hidden" name="submitType" value="optinCustomView">
+    <input type="hidden" name="emailReportId" value="">
+    <input type="hidden" name="formType" value="QuickForm">
+    <input type="hidden" name="zx" value="14ae644270">
+    <input type="hidden" name="zcvers" value="2.0">
+    <input type="hidden" name="oldListIds" value="">
+    <input type="hidden" name="mode" value="OptinCreateView">
+    <input type="hidden" name="zcld" value="13e5b2ab2a574095">
+    <input type="hidden" name="zctd" value="13e5b2ab2a572921">
+    <input type="hidden" name="zc_trackCode" value="ZCFORMVIEW">
+    <input type="hidden" name="zc_formIx" value="3z3dbc6226e90a0b5af8e5a329ce1705bb8d2bdbac14594f82c088b26764fe8f50">
+    <input type="hidden" name="scriptless" value="yes">
     <button type="submit" class="cta">Download the book</button>
     <p class="privacy">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7A8696" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       No spam. Unsubscribe anytime.
     </p>
   </form>
+  <iframe name="_zcSignup" title="signup" style="display:none" aria-hidden="true"></iframe>
 </section>
 
 <footer>
@@ -262,22 +278,14 @@
 <script>
   document.getElementById('yr').textContent=new Date().getFullYear();
 
-  // Handle the opt-in: capture the email (if a backend is connected),
-  // then send the visitor to the thank-you page where the book downloads.
+  // The form posts to Zoho in the hidden iframe (saves the contact to the
+  // "Book Subscribers" list). We then send the visitor to the thank-you page
+  // where the book downloads instantly.
   (function(){
     var form=document.getElementById('optin-form');
-    form.addEventListener('submit',function(e){
-      e.preventDefault();
-      var action=form.getAttribute('action')||'';
-      var go=function(){window.location.href='thank-you.html';};
-      if(action && action.indexOf('YOUR_FORM_ID')===-1){
-        // A real endpoint is set (Zoho/Formspree): send the data, then continue.
-        fetch(action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
-          .then(go).catch(go);
-      } else {
-        // No backend connected yet — proceed straight to the download.
-        go();
-      }
+    form.addEventListener('submit',function(){
+      // Don't preventDefault — let the form POST to Zoho's hidden iframe.
+      setTimeout(function(){ window.location.href='thank-you.html'; }, 1200);
     });
   })();
 </script>
