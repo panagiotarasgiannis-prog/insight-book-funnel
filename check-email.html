@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One more step — confirm your email | INSIGHT</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F1C2E;--navy-mid:#1B2B3A;--navy-light:#243447;
+    --gold:#C8B896;--gold-light:#DDD0B8;--gold-dark:#A89060;
+    --cream:#F5F1EB;--cream-dark:#EDE8E0;
+    --ink:#1B2231;--ink-mid:#3D4A58;--ink-light:#7A8696;--white:#FFFFFF;
+    --rule:rgba(200,184,150,0.35);--rule-dark:rgba(200,184,150,0.18);
+    --font-display:'Cinzel',serif;--font-body:'Cormorant Garamond',serif;--font-ui:'Montserrat',sans-serif;
+    --max-w:760px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:var(--font-body);color:var(--cream);font-size:18px;line-height:1.7;
+    background:
+      radial-gradient(1100px 580px at 50% -10%, rgba(200,184,150,.12), transparent 60%),
+      linear-gradient(168deg,var(--navy) 0%,#0a1322 100%);
+    min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--max-w);margin:0 auto;padding:0 32px;width:100%}
+
+  /* NAV */
+  nav{border-bottom:0.7px solid var(--rule-dark)}
+  nav .inner{max-width:1160px;margin:0 auto;padding:0 32px;display:flex;justify-content:center;align-items:center;height:128px}
+  .nav-logo{display:flex;flex-direction:column;align-items:center}
+  .nav-logo .rule{height:1.4px;width:230px;background:var(--gold)}
+  .nav-logo .wordmark{font-family:var(--font-display);font-size:34px;font-weight:500;letter-spacing:0.5em;color:var(--cream);padding:12px 0 10px 0.5em}
+  @media (max-width:680px){nav .inner{height:100px}.nav-logo .rule{width:170px}.nav-logo .wordmark{font-size:26px}}
+
+  main{flex:1;display:flex;align-items:center;padding:64px 0}
+  .panel{text-align:center;width:100%}
+
+  .mailicon{
+    width:78px;height:78px;border:1px solid var(--gold);border-radius:50%;
+    margin:0 auto 28px;display:flex;align-items:center;justify-content:center;
+    animation:pop .5s cubic-bezier(.2,.9,.3,1.3) both;
+  }
+  @keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+  .mailicon svg{width:36px;height:36px}
+
+  .eyebrow{font-family:var(--font-ui);text-transform:uppercase;letter-spacing:0.34em;font-size:10.5px;color:var(--gold);font-weight:500;margin-bottom:18px}
+  h1{font-family:var(--font-display);font-size:38px;font-weight:500;line-height:1.22;margin-bottom:16px}
+  h1 .accent{color:var(--gold-light)}
+  .lead{font-size:21px;font-weight:300;color:var(--cream-dark);max-width:32em;margin:0 auto 14px}
+  .lead strong{color:var(--cream);font-weight:500}
+
+  .verify-card{
+    background:var(--cream);color:var(--ink);
+    border-top:2px solid var(--gold);
+    padding:34px 36px;box-shadow:0 30px 70px rgba(0,0,0,.5);
+    max-width:560px;margin:34px auto 0;text-align:left;
+  }
+  .verify-card .kicker{font-family:var(--font-ui);font-size:9px;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold-dark);font-weight:600;margin-bottom:18px}
+  .verify-steps{counter-reset:vs;display:grid;gap:18px}
+  .verify-steps .vstep{position:relative;padding-left:46px;font-size:18px;color:var(--ink-mid);line-height:1.5}
+  .verify-steps .vstep b{color:var(--ink);font-weight:600}
+  .verify-steps .vstep::before{
+    counter-increment:vs;content:counter(vs);
+    position:absolute;left:0;top:-2px;width:30px;height:30px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-display);font-size:14px;color:var(--navy);font-weight:600;
+    background:var(--gold);border-radius:50%;
+  }
+
+  .note{font-family:var(--font-ui);font-size:11.5px;letter-spacing:0.03em;color:var(--ink-light);margin-top:30px;line-height:1.8}
+  .note a{color:var(--gold-light)}
+
+  footer{border-top:0.7px solid var(--rule-dark);padding:28px 0;text-align:center}
+  footer .small{font-family:var(--font-ui);font-size:10px;letter-spacing:0.08em;color:var(--ink-light);line-height:1.9}
+
+  @media (max-width:680px){
+    h1{font-size:30px}
+    .verify-card{padding:28px 22px}
+    .verify-steps .vstep{font-size:17px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <div class="nav-logo">
+      <div class="rule"></div>
+      <div class="wordmark">INSIGHT</div>
+      <div class="rule"></div>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+    <div class="panel">
+      <div class="mailicon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C8B896" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      </div>
+      <div class="eyebrow">Almost there</div>
+      <h1>Please confirm <span class="accent">your email.</span></h1>
+      <p class="lead">To protect your inbox, we send the book only to confirmed addresses. We've just emailed you a one-click confirmation link.</p>
+
+      <div class="verify-card">
+        <div class="kicker">What to do now</div>
+        <div class="verify-steps">
+          <div class="vstep"><b>Open your inbox</b> and look for an email from INSIGHT titled &ldquo;Confirm your subscription.&rdquo;</div>
+          <div class="vstep"><b>Click the confirmation link</b> inside that email.</div>
+          <div class="vstep"><b>You'll be taken straight to your download</b> — and a copy of the link is in that email too.</div>
+        </div>
+      </div>
+
+      <p class="note">
+        Don't see it within a couple of minutes? Check your <strong style="color:var(--ink-light)">spam</strong> or <strong style="color:var(--ink-light)">promotions</strong> folder, and add INSIGHT to your contacts so future notes reach you.
+        <br>Wrong email or nothing arrived? <a href="index.html">Go back and re-enter your details</a>.
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="small">
+      &copy; <span id="yr"></span> INSIGHT &middot; The Manual for the Systematic Investor &middot; Educational content, not financial advice.
+    </p>
+  </div>
+</footer>
+
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>

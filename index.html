@@ -147,14 +147,15 @@
     outline:none;border-color:var(--gold-dark);
     box-shadow:0 0 0 3px rgba(200,184,150,.3);
   }
-  button.cta{
+  button.cta,input.cta{
     width:100%;font-family:var(--font-ui);font-size:13px;font-weight:600;
     letter-spacing:0.3em;text-transform:uppercase;color:var(--navy);
     background:var(--gold);padding:19px 22px;border:none;cursor:pointer;
     transition:background .25s,transform .2s,box-shadow .25s;margin-top:8px;
+    -webkit-appearance:none;appearance:none;border-radius:0;
   }
-  button.cta:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(200,184,150,.25)}
-  button.cta:active{transform:translateY(0)}
+  button.cta:hover,input.cta:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(200,184,150,.25)}
+  button.cta:active,input.cta:active{transform:translateY(0)}
   .privacy{
     font-family:var(--font-ui);font-size:11px;letter-spacing:0.04em;
     color:var(--ink-light);text-align:center;margin-top:17px;
@@ -221,44 +222,71 @@
      See SETUP-GUIDE.md (Zoho Campaigns recommended, or Formspree).
 ============================================================= -->
 <section class="cta-section">
-  <!-- Email capture wired to Zoho Campaigns (list: Book Subscribers).
-       Posts to Zoho in a hidden iframe; the script below then sends the
-       visitor to thank-you.html for the instant download. -->
-  <form class="form-card" id="optin-form"
+  <!-- ============================================================
+       Email capture — Zoho Campaigns "Website Code" embed (list:
+       Book Subscribers). The Zoho script (optin.min.js + setupSF,
+       loaded at the bottom of this page) binds to the #zcWebOptin
+       button, validates, and AJAX-submits to Zoho. This is what
+       actually REGISTERS the contact and fires the double opt-in
+       confirmation email. After submit, our script sends the
+       visitor to check-email.html. The book download is unlocked
+       only after they click the confirm link in that email
+       (Zoho's confirmation redirect points to thank-you.html).
+  ============================================================= -->
+  <div id="sf3z3dbc6226e90a0b5af8e5a329ce1705bb8d2bdbac14594f82c088b26764fe8f50" data-type="signupform">
+  <form class="form-card" id="zcampaignOptinForm"
         method="POST"
         action="https://zcv2-zcmp.maillist-manage.eu/weboptin.zc"
         target="_zcSignup">
     <div class="kicker">The Manual for the Systematic Investor</div>
     <h2>Get your free copy</h2>
-    <p class="lead">Enter your details and the book downloads instantly on the next page.</p>
+    <p class="lead">Enter your details and we'll email you a one-click link to confirm your address and unlock the download.</p>
     <div class="field">
       <label for="FIRSTNAME">First name</label>
-      <input type="text" id="FIRSTNAME" name="FIRSTNAME" placeholder="Your first name" required>
+      <input type="text" id="FIRSTNAME" name="FIRSTNAME" changeitem="SIGNUP_FORM_FIELD" placeholder="Your first name">
     </div>
     <div class="field">
       <label for="EMBED_FORM_EMAIL_LABEL">Email address</label>
-      <input type="email" id="EMBED_FORM_EMAIL_LABEL" name="CONTACT_EMAIL" placeholder="you@example.com" required>
+      <input type="text" id="EMBED_FORM_EMAIL_LABEL" name="CONTACT_EMAIL" changeitem="SIGNUP_FORM_FIELD" placeholder="you@example.com">
     </div>
-    <!-- Zoho Campaigns hidden fields (from the form's embed code) -->
-    <input type="hidden" name="submitType" value="optinCustomView">
-    <input type="hidden" name="emailReportId" value="">
-    <input type="hidden" name="formType" value="QuickForm">
-    <input type="hidden" name="zx" value="14ae644270">
+    <div id="errorMsgDiv" style="display:none;background:#ffebe8;border:1px solid #ffd9d3;color:#d20000;padding:10px 12px;font-family:var(--font-ui);font-size:12px;margin-bottom:14px">Please enter a valid email address.</div>
+    <!-- Zoho Campaigns hidden fields (from the form's Website Code) -->
+    <input type="hidden" id="submitType" name="submitType" value="optinCustomView">
+    <input type="hidden" id="emailReportId" name="emailReportId" value="">
+    <input type="hidden" id="formType" name="formType" value="QuickForm">
+    <input type="hidden" name="zx" id="cmpZuid" value="14ae644270">
     <input type="hidden" name="zcvers" value="2.0">
-    <input type="hidden" name="oldListIds" value="">
-    <input type="hidden" name="mode" value="OptinCreateView">
-    <input type="hidden" name="zcld" value="13e5b2ab2a574095">
-    <input type="hidden" name="zctd" value="13e5b2ab2a572921">
-    <input type="hidden" name="zc_trackCode" value="ZCFORMVIEW">
-    <input type="hidden" name="zc_formIx" value="3z3dbc6226e90a0b5af8e5a329ce1705bb8d2bdbac14594f82c088b26764fe8f50">
-    <input type="hidden" name="scriptless" value="yes">
-    <button type="submit" class="cta">Download the book</button>
+    <input type="hidden" name="oldListIds" id="allCheckedListIds" value="">
+    <input type="hidden" id="mode" name="mode" value="OptinCreateView">
+    <input type="hidden" id="zcld" name="zcld" value="13e5b2ab2a574095">
+    <input type="hidden" id="zctd" name="zctd" value="13e5b2ab2a572921">
+    <input type="hidden" id="document_domain" value="">
+    <input type="hidden" id="zc_Url" value="zcv2-zcmp.maillist-manage.eu">
+    <input type="hidden" id="new_optin_response_in" value="0">
+    <input type="hidden" id="duplicate_optin_response_in" value="0">
+    <input type="hidden" name="zc_trackCode" id="zc_trackCode" value="ZCFORMVIEW">
+    <input type="hidden" id="zc_formIx" name="zc_formIx" value="3z3dbc6226e90a0b5af8e5a329ce1705bb8d2bdbac14594f82c088b26764fe8f50">
+    <input type="hidden" id="viewFrom" value="URL_ACTION">
+    <span style="display:none" id="dt_CONTACT_EMAIL">1,true,6,Contact Email,2</span>
+    <span style="display:none" id="dt_FIRSTNAME">1,false,1,First Name,2</span>
+    <span style="display:none" id="dt_LASTNAME">1,false,1,Last Name,2</span>
+    <input type="button" class="cta" id="zcWebOptin" value="Send me the book">
     <p class="privacy">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7A8696" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       No spam. Unsubscribe anytime.
     </p>
   </form>
+  <img src="https://zcv2-zcmp.maillist-manage.eu/images/spacer.gif" id="refImage" onload="referenceSetter(this)" style="display:none">
+  </div>
+  <input type="hidden" id="signupFormType" value="QuickForm_Vertical">
   <iframe name="_zcSignup" title="signup" style="display:none" aria-hidden="true"></iframe>
+  <div id="zcOptinOverLay" oncontextmenu="return false" style="display:none;text-align:center;background-color:rgb(0,0,0);opacity:0.5;z-index:100;position:fixed;width:100%;top:0;left:0;height:100%"></div>
+  <div id="zcOptinSuccessPopup" style="display:none;z-index:9999;width:800px;max-width:90%;height:40%;top:84px;position:fixed;left:50%;transform:translateX(-50%);background-color:#fff;border:1px solid #e6e6e6;box-shadow:0 1px 10px #424242;padding:35px">
+    <span style="position:absolute;top:-16px;right:-14px;z-index:99999;cursor:pointer" id="closeSuccess">
+      <img src="https://zcv2-zcmp.maillist-manage.eu/images/videoclose.png">
+    </span>
+    <div id="zcOptinSuccessPanel"></div>
+  </div>
 </section>
 
 <footer>
@@ -275,17 +303,33 @@
   </div>
 </footer>
 
+<!-- Zoho Campaigns Web-Optin header code: registers the contact and
+     fires the double opt-in confirmation email when #zcWebOptin is clicked. -->
+<script type="text/javascript" src="https://zcv2-zcmp.maillist-manage.eu/js/optin.min.js" onload="setupSF('sf3z3dbc6226e90a0b5af8e5a329ce1705bb8d2bdbac14594f82c088b26764fe8f50','ZCFORMVIEW',false,'light',false,'0')"></script>
+<script type="text/javascript">
+  function runOnFormSubmit_sf3z3dbc6226e90a0b5af8e5a329ce1705bb8d2bdbac14594f82c088b26764fe8f50(th){
+    /* Zoho hook — runs just before the opt-in is submitted. */
+  }
+</script>
+
 <script>
   document.getElementById('yr').textContent=new Date().getFullYear();
 
-  // The form posts to Zoho in the hidden iframe (saves the contact to the
-  // "Book Subscribers" list). We then send the visitor to the thank-you page
-  // where the book downloads instantly.
+  // When the visitor clicks "Send me the book", Zoho's optin.min.js validates
+  // and submits the opt-in (creating the unconfirmed contact + sending the
+  // confirmation email). If the email looks valid, we then move them on to the
+  // "confirm your email" page. The book download is unlocked only after they
+  // click the confirm link in that email (Zoho redirects them to thank-you.html).
   (function(){
-    var form=document.getElementById('optin-form');
-    form.addEventListener('submit',function(){
-      // Don't preventDefault — let the form POST to Zoho's hidden iframe.
-      setTimeout(function(){ window.location.href='thank-you.html'; }, 1200);
+    var btn=document.getElementById('zcWebOptin');
+    var email=document.getElementById('EMBED_FORM_EMAIL_LABEL');
+    if(!btn) return;
+    btn.addEventListener('click',function(){
+      var v=(email&&email.value||'').trim();
+      var ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      if(!ok) return; // let Zoho show its own validation error; don't navigate
+      // Give Zoho's AJAX opt-in time to fire, then continue to the next page.
+      setTimeout(function(){ window.location.href='check-email.html'; }, 2200);
     });
   })();
 </script>
