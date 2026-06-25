@@ -147,20 +147,63 @@
     outline:none;border-color:var(--gold-dark);
     box-shadow:0 0 0 3px rgba(200,184,150,.3);
   }
-  button.cta,input.cta{
-    width:100%;font-family:var(--font-ui);font-size:13px;font-weight:600;
-    letter-spacing:0.3em;text-transform:uppercase;color:var(--navy);
-    background:var(--gold);padding:19px 22px;border:none;cursor:pointer;
-    transition:background .25s,transform .2s,box-shadow .25s;margin-top:8px;
-    -webkit-appearance:none;appearance:none;border-radius:0;
-  }
-  button.cta:hover,input.cta:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(200,184,150,.25)}
-  button.cta:active,input.cta:active{transform:translateY(0)}
   .privacy{
     font-family:var(--font-ui);font-size:11px;letter-spacing:0.04em;
     color:var(--ink-light);text-align:center;margin-top:17px;
   }
   .privacy svg{vertical-align:-2px;margin-right:4px}
+
+  /* ---------- ZOHO WEB-OPTIN FORM — brand skin ----------
+     We keep Zoho's exact form structure/IDs/attributes (so optin.min.js
+     works), and only override its visual styling here. CSS does not change
+     the DOM the script relies on. */
+  .zc-form,
+  .zc-form #customForm,
+  .zc-form [name="SIGNUP_BODY"],
+  .zc-form [name="SIGNUP_BODY"] > div:not([changeitem="ELEGANTFORM_IMAGE"]){
+    width:100% !important;height:auto !important;position:static !important;
+    background:transparent !important;overflow:visible !important;margin:0 !important;
+  }
+  .zc-form [changeitem="ELEGANTFORM_IMAGE"]{display:none !important;}
+  .zc-form #zcampaignOptinForm{color:var(--ink) !important;width:100% !important;}
+  .zc-form #zcampaignOptinForm > div{
+    position:static !important;width:100% !important;float:none !important;
+    bottom:auto !important;text-align:left !important;
+  }
+  /* hide Zoho's default heading ("Sign up to be in the know.") */
+  .zc-form #zcampaignOptinForm > div > div:first-child{display:none !important;}
+  /* field/button wrappers -> full-width stacked */
+  .zc-form #zcampaignOptinForm > div > div{
+    width:100% !important;height:auto !important;margin:0 0 18px !important;
+    display:block !important;position:static !important;float:none !important;text-align:left !important;
+  }
+  .zc-form #FIRSTNAME,
+  .zc-form #EMBED_FORM_EMAIL_LABEL{
+    position:static !important;width:100% !important;height:auto !important;
+    padding:16px 17px !important;font-family:var(--font-body) !important;font-size:19px !important;
+    border:1px solid #cbc3b2 !important;background:var(--white) !important;color:var(--ink) !important;
+    border-radius:0 !important;box-sizing:border-box !important;
+  }
+  .zc-form #FIRSTNAME::placeholder,
+  .zc-form #EMBED_FORM_EMAIL_LABEL::placeholder{color:var(--ink-light) !important;}
+  .zc-form #FIRSTNAME:focus,
+  .zc-form #EMBED_FORM_EMAIL_LABEL:focus{
+    outline:none !important;border-color:var(--gold-dark) !important;
+    box-shadow:0 0 0 3px rgba(200,184,150,.3) !important;
+  }
+  .zc-form #zcWebOptin{
+    position:static !important;width:100% !important;height:auto !important;
+    background:var(--gold) !important;color:var(--navy) !important;border:none !important;border-radius:0 !important;
+    font-family:var(--font-ui) !important;font-size:13px !important;font-weight:600 !important;
+    letter-spacing:0.3em !important;text-transform:uppercase !important;padding:19px 22px !important;
+    cursor:pointer !important;margin:6px 0 0 !important;-webkit-appearance:none !important;appearance:none !important;
+    transition:background .25s !important;
+  }
+  .zc-form #zcWebOptin:hover{background:var(--gold-light) !important;}
+  .zc-form #errorMsgDiv{
+    position:static !important;margin:0 0 14px !important;box-shadow:none !important;
+    font-family:var(--font-ui) !important;
+  }
 
   /* ---------- FOOTER ---------- */
   footer{border-top:0.7px solid var(--rule-dark);padding:40px 0 36px;text-align:center}
@@ -192,7 +235,7 @@
 <header class="hero">
   <div class="wrap">
     <div class="hero-copy">
-      <div class="eyebrow">Free Book &middot; Instant Download</div>
+      <div class="eyebrow">Free Book &middot; Email Confirmation Required</div>
       <h1>The complete introduction to <span class="accent">systematic investing.</span></h1>
       <div class="lower">
         <div class="lower-text">
@@ -210,47 +253,74 @@
       </div>
     </div>
   </div>
-  <a href="#optin-form" class="scroll-cue">
+  <a href="#optin-card" class="scroll-cue">
     Get your free copy
     <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="#C8B896" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
   </a>
 </header>
 
 <!-- ============================================================
-     CTA SECTION — the single call to action (below the fold).
-     To connect your backend, change ONLY the form's "action".
-     See SETUP-GUIDE.md (Zoho Campaigns recommended, or Formspree).
+     CTA SECTION — branded card wrapping Zoho's EXACT Web-Optin form.
+     The form markup below is Zoho's official "Website Code" (unmodified
+     structure/IDs/attributes). optin.min.js (loaded at the bottom of the
+     page) binds to #zcWebOptin, registers the contact, and fires the
+     double opt-in confirmation email. Our script then sends the visitor
+     to check-email.html. The download unlocks only after they click the
+     confirm link in that email (Zoho confirmation redirect -> thank-you.html).
 ============================================================= -->
 <section class="cta-section">
-  <!-- ============================================================
-       Email capture — Zoho Campaigns "Website Code" embed (list:
-       Book Subscribers). The Zoho script (optin.min.js + setupSF,
-       loaded at the bottom of this page) binds to the #zcWebOptin
-       button, validates, and AJAX-submits to Zoho. This is what
-       actually REGISTERS the contact and fires the double opt-in
-       confirmation email. After submit, our script sends the
-       visitor to check-email.html. The book download is unlocked
-       only after they click the confirm link in that email
-       (Zoho's confirmation redirect points to thank-you.html).
-  ============================================================= -->
-  <div id="sf3z3dbc6226e90a0b5af8e5a329ce1705bb8d2bdbac14594f82c088b26764fe8f50" data-type="signupform">
-  <form class="form-card" id="zcampaignOptinForm"
-        method="POST"
-        action="https://zcv2-zcmp.maillist-manage.eu/weboptin.zc"
-        target="_zcSignup">
+  <div class="form-card" id="optin-card">
     <div class="kicker">The Manual for the Systematic Investor</div>
     <h2>Get your free copy</h2>
     <p class="lead">Enter your details and we'll email you a one-click link to confirm your address and unlock the download.</p>
-    <div class="field">
-      <label for="FIRSTNAME">First name</label>
-      <input type="text" id="FIRSTNAME" name="FIRSTNAME" changeitem="SIGNUP_FORM_FIELD" placeholder="Your first name">
+
+    <!--Zoho Campaigns Web-Optin Form Starts Here-->
+    <div id="sf3z3dbc6226e90a0b5af8e5a329ce1705bb8d2bdbac14594f82c088b26764fe8f50" data-type="signupform" class="zc-form" style="">
+    <div id="customForm">
+    <div name="SIGNUP_BODY" changeitem="BG_IMAGE" style="text-align: center; width: 250px; height: 340px; position: relative; z-index: 2; background-color: rgb(255, 255, 255); margin: auto; overflow: hidden">
+    <div changeitem="ELEGANTFORM_IMAGE" style="width: 100%; height: 100%; position: absolute; bottom: 0">
+    <img src="https://campaign-image.com/zohocampaigns/1301d85c_sign_form_bg_16.png" style="width: 100%; height: 100%; position: relative">
     </div>
-    <div class="field">
-      <label for="EMBED_FORM_EMAIL_LABEL">Email address</label>
-      <input type="text" id="EMBED_FORM_EMAIL_LABEL" name="CONTACT_EMAIL" changeitem="SIGNUP_FORM_FIELD" placeholder="you@example.com">
+    <div style="width: 250px; height: 340px; position: relative; font-family: &quot;Arial&quot;; margin: auto">
+    <div style="background-color: rgb(255, 235, 232); padding: 10px; color: rgb(210, 0, 0); font-size: 11px; margin: 20px 10px 0px; border: 1px solid rgb(255, 217, 211); opacity: 1; display: block; position: absolute; box-shadow: 0px 5px 12px 0px rgb(27, 27, 27); display: none" id="errorMsgDiv">Please correct the marked field(s) below.</div>
+    <div style="position:relative;">
+    <div id="Zc_SignupSuccess" style="display:none;position:absolute;margin-left:4%;width:90%;background-color: white; padding: 3px; border: 3px solid rgb(194, 225, 154); margin-top: 10px;margin-bottom:10px;word-break:break-all">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tbody>
+    <tr>
+    <td width="10%">
+    <img class="successicon" src="https://zcv2-zcmp.maillist-manage.eu/images/challangeiconenable.jpg" align="absmiddle">
+    </td>
+    <td>
+    <span id="signupSuccessMsg" style="color: rgb(73, 140, 132); font-family: sans-serif; font-size: 14px;word-break:break-word">&nbsp;&nbsp;Thank you for Signing Up</span>
+    </td>
+    </tr>
+    </tbody>
+    </table>
     </div>
-    <div id="errorMsgDiv" style="display:none;background:#ffebe8;border:1px solid #ffd9d3;color:#d20000;padding:10px 12px;font-family:var(--font-ui);font-size:12px;margin-bottom:14px">Please enter a valid email address.</div>
-    <!-- Zoho Campaigns hidden fields (from the form's Website Code) -->
+    </div>
+    <form method="POST" id="zcampaignOptinForm" style="margin: 0px; width: 100%; color: rgb(255, 255, 255)" action="https://zcv2-zcmp.maillist-manage.eu/weboptin.zc" target="_zcSignup">
+    <div style="text-align: center; width: 100%; float: left; position: absolute; z-index: 2; bottom: 40px">
+    <div style="font-size: 18px; font-family: &quot;Arial&quot;; font-weight: normal; color: rgb(0, 0, 0); line-height: 1.556; text-align: center; margin: 0px 0 10px; width: 100%; float: left">Sign up to be in the know.</div>
+    <div style="position: relative; width: 190px; height: 28px; margin-bottom: 20px; display: inline-block">
+    <input type="text" style="border-width: 0 0 1px; border-color: rgb(99, 99, 99); border-style: solid; width: 100%; height: 100%; z-index: 4; outline: none; padding: 5px 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-family: &quot;Arial&quot;; background-color: transparent" placeholder="Your first name" changeitem="SIGNUP_FORM_FIELD" name="FIRSTNAME" id="FIRSTNAME">
+    </div>
+    <div style="text-align: center; width: 190px; height: 28px; margin: auto; margin-bottom: 20px">
+    <div id="Zc_SignupSuccess" style="position: absolute; width: 87%; background-color: white; padding: 3px; border: 3px solid rgb(194, 225, 154); margin-bottom: 10px; word-break: break-all; opacity: 1; display: none">
+    <div style="width: 20px; padding: 5px; display: table-cell">
+    <img class="successicon" src="https://campaigns.zoho.com/images/challangeiconenable.jpg" style="width: 20px">
+    </div>
+    <div style="display: table-cell">
+    <span id="signupSuccessMsg" style="color: rgb(73, 140, 132); font-family: sans-serif; font-size: 14px; line-height: 30px; display: block"></span>
+    </div>
+    </div>
+    <input placeholder="you@example.com" changeitem="SIGNUP_FORM_FIELD" name="CONTACT_EMAIL" id="EMBED_FORM_EMAIL_LABEL" type="text" style="border-width: 0 0 1px; border-color: rgb(99, 99, 99); border-style: solid; width: 100%; height: 100%; z-index: 4; outline: none; padding: 5px 5px; box-sizing: border-box; color: rgb(136, 136, 136); font-family: &quot;Arial&quot;; background-color: transparent">
+    </div>
+    <div style="position: relative; width: 113px; height: 30px; display: inline-block">
+    <input type="button" style="text-align: center; border-radius: 6px; background-color: rgb(209, 107, 166); width: 100%; height: 100%; z-index: 5; border: 0; color: rgb(255, 255, 255); cursor: pointer; outline: none; font-family: &quot;Arial&quot;; font-size: 14px" name="SIGNUP_SUBMIT_BUTTON" id="zcWebOptin" value="Send me the book">
+    </div>
+    </div>
+    <input type="hidden" id="fieldBorder" value="">
     <input type="hidden" id="submitType" name="submitType" value="optinCustomView">
     <input type="hidden" id="emailReportId" name="emailReportId" value="">
     <input type="hidden" id="formType" name="formType" value="QuickForm">
@@ -267,26 +337,31 @@
     <input type="hidden" name="zc_trackCode" id="zc_trackCode" value="ZCFORMVIEW">
     <input type="hidden" id="zc_formIx" name="zc_formIx" value="3z3dbc6226e90a0b5af8e5a329ce1705bb8d2bdbac14594f82c088b26764fe8f50">
     <input type="hidden" id="viewFrom" value="URL_ACTION">
-    <span style="display:none" id="dt_CONTACT_EMAIL">1,true,6,Contact Email,2</span>
-    <span style="display:none" id="dt_FIRSTNAME">1,false,1,First Name,2</span>
-    <span style="display:none" id="dt_LASTNAME">1,false,1,Last Name,2</span>
-    <input type="button" class="cta" id="zcWebOptin" value="Send me the book">
+    <span style="display: none" id="dt_CONTACT_EMAIL">1,true,6,Contact Email,2</span>
+    <span style="display: none" id="dt_FIRSTNAME">1,false,1,First Name,2</span>
+    <span style="display: none" id="dt_LASTNAME">1,false,1,Last Name,2</span>
+    </form>
+    </div>
+    </div>
+    </div>
+    <img src="https://zcv2-zcmp.maillist-manage.eu/images/spacer.gif" id="refImage" onload="referenceSetter(this)" style="display:none;">
+    </div>
+
     <p class="privacy">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7A8696" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       No spam. Unsubscribe anytime.
     </p>
-  </form>
-  <img src="https://zcv2-zcmp.maillist-manage.eu/images/spacer.gif" id="refImage" onload="referenceSetter(this)" style="display:none">
   </div>
   <input type="hidden" id="signupFormType" value="QuickForm_Vertical">
   <iframe name="_zcSignup" title="signup" style="display:none" aria-hidden="true"></iframe>
-  <div id="zcOptinOverLay" oncontextmenu="return false" style="display:none;text-align:center;background-color:rgb(0,0,0);opacity:0.5;z-index:100;position:fixed;width:100%;top:0;left:0;height:100%"></div>
-  <div id="zcOptinSuccessPopup" style="display:none;z-index:9999;width:800px;max-width:90%;height:40%;top:84px;position:fixed;left:50%;transform:translateX(-50%);background-color:#fff;border:1px solid #e6e6e6;box-shadow:0 1px 10px #424242;padding:35px">
-    <span style="position:absolute;top:-16px;right:-14px;z-index:99999;cursor:pointer" id="closeSuccess">
-      <img src="https://zcv2-zcmp.maillist-manage.eu/images/videoclose.png">
-    </span>
-    <div id="zcOptinSuccessPanel"></div>
+  <div id="zcOptinOverLay" oncontextmenu="return false" style="display:none;text-align: center; background-color: rgb(0, 0, 0); opacity: 0.5; z-index: 100; position: fixed; width: 100%; top: 0px; left: 0px; height: 988px;"></div>
+  <div id="zcOptinSuccessPopup" style="display:none;z-index: 9999;width: 800px; max-width:90%; height: 40%;top: 84px;position: fixed; left: 50%; transform:translateX(-50%); background-color: #FFFFFF;border-color: #E6E6E6; border-style: solid; border-width: 1px; box-shadow: 0 1px 10px #424242;padding: 35px;">
+  <span style="position: absolute;top: -16px;right:-14px;z-index:99999;cursor: pointer;" id="closeSuccess">
+  <img src="https://zcv2-zcmp.maillist-manage.eu/images/videoclose.png">
+  </span>
+  <div id="zcOptinSuccessPanel"></div>
   </div>
+  <!--Zoho Campaigns Web-Optin Form Ends Here-->
 </section>
 
 <footer>
@@ -317,7 +392,7 @@
 
   // When the visitor clicks "Send me the book", Zoho's optin.min.js validates
   // and submits the opt-in (creating the unconfirmed contact + sending the
-  // confirmation email). If the email looks valid, we then move them on to the
+  // confirmation email). If the email looks valid, we move them on to the
   // "confirm your email" page. The book download is unlocked only after they
   // click the confirm link in that email (Zoho redirects them to thank-you.html).
   (function(){
@@ -329,7 +404,7 @@
       var ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
       if(!ok) return; // let Zoho show its own validation error; don't navigate
       // Give Zoho's AJAX opt-in time to fire, then continue to the next page.
-      setTimeout(function(){ window.location.href='check-email.html'; }, 2200);
+      setTimeout(function(){ window.location.href='check-email.html'; }, 2500);
     });
   })();
 </script>
