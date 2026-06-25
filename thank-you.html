@@ -112,7 +112,7 @@
       </div>
       <div class="eyebrow">Email confirmed</div>
       <h1>Thank you — <span class="accent">your book is ready.</span></h1>
-      <p class="lead">Your address is confirmed. Click below to download <em>The Manual for the Systematic Investor</em> right now — the same link is waiting in your inbox too.</p>
+      <p class="lead">Your address is confirmed. Click below to download <em>The Manual for the Systematic Investor</em>.</p>
 
       <div class="download-card">
         <img src="cover.jpg" alt="Book cover">
@@ -120,15 +120,14 @@
           <div class="kicker">Your free book</div>
           <h2>The Manual for the Systematic Investor</h2>
         </div>
-        <a class="download-btn" id="dlBtn" href="The-Manual-for-the-Systematic-Investor.pdf" download target="_blank" rel="noopener">
+        <a class="download-btn" id="dlBtn" href="The-Manual-for-the-Systematic-Investor.pdf" download>
           <svg viewBox="0 0 24 24" fill="none" stroke="#0F1C2E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
           Download
         </a>
       </div>
 
       <p class="note">
-        Download didn't start? <a id="dlLink" href="The-Manual-for-the-Systematic-Investor.pdf" target="_blank" rel="noopener">Open it directly here</a>.
-        Check your inbox (and spam folder) for your emailed copy too.
+        Download didn't start? <a id="dlLink" href="The-Manual-for-the-Systematic-Investor.pdf" download>Open it directly here</a>.
       </p>
 
       <div class="next">
@@ -153,58 +152,9 @@
 
 <script>
   document.getElementById('yr').textContent=new Date().getFullYear();
-
-  /* ============================================================
-     BOOK_URL — the one place to set where the book lives.
-     - Leave as the bundled file to serve it from Render.
-     - To save Render bandwidth, paste your Zoho WorkDrive / Google Drive
-       DIRECT download link here (then re-deploy). Everything else updates
-       automatically: the Download button, the open-directly link, and
-       the auto-download below.
-  ============================================================ */
-  // Final book (new version) bundled with the site. To serve from Zoho
-  // WorkDrive instead, paste the DIRECT download link here and re-deploy.
-  var BOOK_URL  = 'The-Manual-for-the-Systematic-Investor.pdf';
-  var FILE_NAME = 'The-Manual-for-the-Systematic-Investor.pdf';
-
-  (function(){
-    var btn=document.getElementById('dlBtn'), lnk=document.getElementById('dlLink');
-    if(btn) btn.href=BOOK_URL;
-    if(lnk) lnk.href=BOOK_URL;
-
-    var isExternal=/^https?:\/\//i.test(BOOK_URL) &&
-                   BOOK_URL.indexOf(location.origin)!==0;
-
-    function clickLink(href,opts){
-      var a=document.createElement('a');
-      a.href=href;
-      if(opts && opts.download) a.download=FILE_NAME;
-      if(opts && opts.newTab){a.target='_blank';a.rel='noopener';}
-      a.style.display='none';
-      document.body.appendChild(a);a.click();
-      setTimeout(function(){a.remove();},0);
-    }
-
-    function deliver(){
-      if(isExternal){
-        clickLink(BOOK_URL,{newTab:true});
-        return;
-      }
-      fetch(BOOK_URL).then(function(r){
-        if(!r.ok) throw new Error('fetch failed');
-        return r.blob();
-      }).then(function(blob){
-        var burl=URL.createObjectURL(blob);
-        clickLink(burl,{download:true});
-        clickLink(burl,{newTab:true});
-        setTimeout(function(){URL.revokeObjectURL(burl);},60000);
-      }).catch(function(){
-        clickLink(BOOK_URL,{newTab:true,download:true});
-      });
-    }
-
-    window.addEventListener('load',function(){ setTimeout(deliver,700); });
-  })();
+  // The book downloads only when the visitor clicks the button. The anchor's
+  // "download" attribute saves the file to their device rather than opening it
+  // in a new tab. (No auto-download on page load.)
 </script>
 </body>
 </html>
